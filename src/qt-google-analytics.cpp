@@ -189,6 +189,8 @@ void QtGoogleAnalytics::sendEvent(const QString &name, const QVariantMap &parame
 
 QString QtGoogleAnalytics::userAgent() const
 {
+	return "";
+
 	#if defined(Q_OS_ANDROID)
 		// On Android, just use System.getProperty("http.agent")
 		QJniObject ua = QJniObject::callStaticMethod<jstring>(
