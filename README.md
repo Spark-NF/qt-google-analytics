@@ -1,3 +1,4 @@
+<p align="center"><img src="readme-icon.png" alt="" /></p>
 <h1 align="center">Qt Google Analytics</h1>
 
 [![GitHub issues](https://img.shields.io/github/issues/Spark-NF/qt-google-analytics.svg)](https://github.com/Spark-NF/qt-google-analytics/issues)
