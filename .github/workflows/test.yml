@@ -1,0 +1,36 @@
+name: Test
+
+on:
+  push:
+
+env:
+  QT_VERSION: 5.15.2
+
+jobs:
+  linux:
+    name: Linux
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v3
+        with:
+          cache: true
+          version: ${{ env.QT_VERSION }}
+
+      - name: Build
+        working-directory: tests
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          cmake --build .
+
+      - name: Test
+        working-directory: tests
+        run: build/tests

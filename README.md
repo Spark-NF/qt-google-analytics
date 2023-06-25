@@ -1,6 +1,7 @@
 <h1 align="center">Qt Google Analytics</h1>
 
 [![GitHub issues](https://img.shields.io/github/issues/Spark-NF/qt-google-analytics.svg)](https://github.com/Spark-NF/qt-google-analytics/issues)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/Spark-NF/qt-google-analytics/test.yml)](https://github.com/Spark-NF/qt-google-analytics/actions)
 [![Project license](https://img.shields.io/github/license/Spark-NF/qt-google-analytics.svg)](https://raw.githubusercontent.com/Spark-NF/qt-google-analytics/master/LICENSE)
 
 ## About
