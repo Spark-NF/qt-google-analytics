@@ -44,6 +44,12 @@ QtGoogleAnalytics::QtGoogleAnalytics(QObject *parent)
 	}
 }
 
+QtGoogleAnalytics::QtGoogleAnalytics(const QString &measurementId, QObject *parent)
+	: QtGoogleAnalytics(parent)
+{
+	m_measurementId = measurementId;
+}
+
 
 void QtGoogleAnalytics::setMeasurementId(const QString &measurementId)
 {

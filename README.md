@@ -20,6 +20,11 @@ The script is licensed under the [Apache License 2.0](http://www.apache.org/lice
 ```cpp
 #include "qt-google-analytics.h"
 
+QtGoogleAnalytics analytics("G-XXXXXXXXXX");
+```
+
+Alternatively, you can set your [measurement ID](https://support.google.com/analytics/answer/12270356) using the `setMeasurementId` method:
+```cpp
 QtGoogleAnalytics analytics;
 analytics.setMeasurementId("G-XXXXXXXXXX");
 ```

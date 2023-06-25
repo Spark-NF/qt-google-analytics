@@ -20,6 +20,7 @@ class QtGoogleAnalytics : public QObject
 
 	public:
 		explicit QtGoogleAnalytics(QObject *parent = nullptr);
+		explicit QtGoogleAnalytics(const QString &measurementId, QObject *parent = nullptr);
 
 	public:
 		void setMeasurementId(const QString &measurementId);
