@@ -28,9 +28,25 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake ..
+          cmake -DCOVERAGE=1 ..
           cmake --build .
 
       - name: Test
         working-directory: tests
         run: build/tests
+
+      - name: Install lcov
+        run: |
+          sudo apt update
+          sudo apt install lcov
+
+      - name: Generate coverage reports
+        run: |
+          lcov --directory . --capture --output-file coverage.info
+          lcov --remove coverage.info '*/tests/*' '/usr/*' "${HOME}"'/.cache/*' --output-file coverage.info
+          lcov --list coverage.info
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

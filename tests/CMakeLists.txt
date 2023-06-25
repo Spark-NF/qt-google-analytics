@@ -5,6 +5,15 @@ enable_testing()
 
 set(CMAKE_AUTOMOC ON)
 
+if(DEFINED COVERAGE)
+	if(CMAKE_COMPILER_IS_GNUCXX)
+		message(STATUS "Compiling with code coverage")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage -fprofile-arcs -ftest-coverage")
+	else()
+		message(WARNING "Coverage only supported on GNUCXX")
+	endif()
+endif()
+
 find_package(Qt5 COMPONENTS Core Network REQUIRED)
 set(QT_LIBRARIES Qt5::Core Qt5::Network)
 message(STATUS "Using Qt ${Qt5_VERSION}")
