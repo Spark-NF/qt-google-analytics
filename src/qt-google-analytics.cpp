@@ -116,7 +116,17 @@ void QtGoogleAnalytics::sendEvent(const QString &name, const QVariantMap &parame
 		{ "sct", "1" },
 		{ "_et", "1" }, // Necessary for users to be created
 		{ "en", name },
+
+		// Operating System information
+		{ "uaa", m_uach.arch() },
+		{ "uab", m_uach.bitness() },
+		{ "uamb", m_uach.mobile() ? "1" : "0" },
+		{ "uam", m_uach.model() },
+		{ "uap", m_uach.platform() },
+		{ "uapv", m_uach.platformVersion() },
+		{ "uaw", m_uach.wow64() ? "1" : "0" },
 	};
+
 	if (!m_userId.isEmpty()) {
 		query.addQueryItem("uid", m_userId);
 	}
@@ -133,16 +143,7 @@ void QtGoogleAnalytics::sendEvent(const QString &name, const QVariantMap &parame
 		query.addQueryItem("_fv", "1");
 	}
 
-	// Operating System information
-	query.addQueryItem("uaa", m_uach.arch());
-	query.addQueryItem("uab", m_uach.bitness());
-	query.addQueryItem("uamb", m_uach.mobile() ? "1" : "0");
-	query.addQueryItem("uam", m_uach.model());
-	query.addQueryItem("uap", m_uach.platform());
-	query.addQueryItem("uapv", m_uach.platformVersion());
-	query.addQueryItem("uaw", m_uach.wow64() ? "1" : "0");
-
-	// Events
+	// Event parameters
 	for (auto it = parameters.constBegin(); it != parameters.constEnd(); ++it) {
 		if (it.value().type() == QVariant::Type::Int) {
 			query.addQueryItem("epn." + it.key(), QString::number(it.value().toInt()));
