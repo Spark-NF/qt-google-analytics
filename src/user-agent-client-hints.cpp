@@ -5,7 +5,12 @@
 #include <QSysInfo>
 
 #ifdef Q_OS_ANDROID
-	#include <QAndroidJniObject>
+	#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+		#include <QJniObject>
+	#else
+		#include <QAndroidJniObject>
+		typedef QAndroidJniObject QJniObject;
+	#endif
 #endif
 
 
@@ -91,7 +96,7 @@ bool UserAgentClientHints::mobile() const
 QString UserAgentClientHints::model() const
 {
 	#if defined(Q_OS_ANDROID)
-		return QAndroidJniObject::getStaticObjectField<jstring>("android/os/Build", "MODEL").toString();
+		return QJniObject::getStaticObjectField<jstring>("android/os/Build", "MODEL").toString();
 	#elif defined(Q_OS_IOS)
 		return "iPhone"; // TODO: iPad
 	#endif

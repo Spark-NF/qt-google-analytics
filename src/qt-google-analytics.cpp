@@ -15,7 +15,12 @@
 	#include <QScreen>
 #endif
 #ifdef Q_OS_ANDROID
-	#include <QAndroidJniObject>
+	#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+		#include <QJniObject>
+	#else
+		#include <QAndroidJniObject>
+		typedef QAndroidJniObject QJniObject;
+	#endif
 #endif
 
 #define MEASUREMENT_ENDPOINT_WEB "https://www.google-analytics.com/g/collect"
@@ -186,11 +191,11 @@ QString QtGoogleAnalytics::userAgent() const
 {
 	#if defined(Q_OS_ANDROID)
 		// On Android, just use System.getProperty("http.agent")
-		QAndroidJniObject ua = QAndroidJniObject::callStaticMethod<jstring>(
+		QJniObject ua = QJniObject::callStaticMethod<jstring>(
 			"System",
 			"getProperty",
 			"(Ljava/lang/String;)Z",
-			QAndroidJniObject::fromString("http.agent").object<jstring>()
+			QJniObject::fromString("http.agent").object<jstring>()
 		);
 		return ua.toString();
 	#endif
