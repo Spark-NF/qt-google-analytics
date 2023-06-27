@@ -9,6 +9,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QVariant>
+#include "chromium-user-agent.h"
 
 #ifdef QT_GUI_LIB
 	#include <QGuiApplication>
@@ -26,6 +27,7 @@
 #define MEASUREMENT_ENDPOINT_WEB "https://www.google-analytics.com/g/collect"
 #define CLIENT_ID_SETTINGS_KEY "QtGoogleAnalytics/ClientId"
 #define SESSION_START_INTERVAL_SECONDS 1800
+#define USER_AGENT_PRODUCT "Chrome/114.0.0.0"
 
 
 QtGoogleAnalytics::QtGoogleAnalytics(QObject *parent)
@@ -196,8 +198,6 @@ void QtGoogleAnalytics::sendEvent(const QString &name, const QVariantMap &parame
 
 QString QtGoogleAnalytics::userAgent() const
 {
-	return "";
-
 	#if defined(Q_OS_ANDROID)
 		// On Android, just use System.getProperty("http.agent")
 		QJniObject ua = QJniObject::callStaticMethod<jstring>(
@@ -209,9 +209,6 @@ QString QtGoogleAnalytics::userAgent() const
 		return ua.toString();
 	#endif
 
-	// On other platforms, use a custom User-Agent
-	const QString appName = QCoreApplication::instance()->applicationName();
-	const QString appVersion = QCoreApplication::instance()->applicationVersion();
-	const QString systemInfo = QString("%1 %2").arg(QOperatingSystemVersion::current().name(), m_uach.platformVersion());
-	return QString("%1/%2 (%3) QtGoogleAnalytics/1.0 (Qt/%4)").arg(appName, appVersion, systemInfo, QT_VERSION_STR);
+	// On other platforms, use a Chrome User-Agent
+	return buildUserAgentForProduct(USER_AGENT_PRODUCT);
 }

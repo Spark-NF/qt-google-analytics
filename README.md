@@ -9,7 +9,9 @@
 ## About
 This script allows you to send events from your Qt application to Google Analytics 4.
 
-Compatible with both Qt 5.10 and above and Qt 6.
+It supports sending events, setting user properties, as well as operating system detection.
+
+Compatible with both Qt 5.10+ and Qt 6.
 
 ### Authors
 * Nicolas Faure ([Spark-NF](https://github.com/Spark-NF))
