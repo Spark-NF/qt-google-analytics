@@ -202,13 +202,12 @@ QString QtGoogleAnalytics::userAgent() const
 {
 	#if defined(Q_OS_ANDROID)
 		// On Android, just use System.getProperty("http.agent")
-		QJniObject ua = QJniObject::callStaticMethod<jstring>(
+		return QJniObject::callStaticObjectMethod(
 			"System",
 			"getProperty",
 			"(Ljava/lang/String;)Z",
 			QJniObject::fromString("http.agent").object<jstring>()
-		);
-		return ua.toString();
+		).toString();
 	#endif
 
 	// On other platforms, use a Chrome User-Agent
