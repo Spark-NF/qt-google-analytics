@@ -44,6 +44,8 @@ QtGoogleAnalytics::QtGoogleAnalytics(QObject *parent)
 	} else {
 		m_clientId = settings.value(CLIENT_ID_SETTINGS_KEY).toString();
 	}
+
+	m_userAgent = userAgent();
 }
 
 QtGoogleAnalytics::QtGoogleAnalytics(const QString &measurementId, QObject *parent)
@@ -172,7 +174,7 @@ void QtGoogleAnalytics::sendEvent(const QString &name, const QVariantMap &parame
 	url.setQuery(query);
 
 	QNetworkRequest request(url);
-	request.setHeader(QNetworkRequest::UserAgentHeader, userAgent().toLatin1());
+	request.setHeader(QNetworkRequest::UserAgentHeader, m_userAgent.toLatin1());
 	m_uach.setRequestHeaders(request);
 
 	QNetworkReply *reply = m_networkAccessManager->post(request, QByteArray());
