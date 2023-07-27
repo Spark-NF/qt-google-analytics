@@ -51,9 +51,9 @@ QString GetOSVersion()
 {
 	const auto osVersion = QOperatingSystemVersion::current();
 
-	const int os_major_version = osVersion.majorVersion();
-	const int os_minor_version = osVersion.minorVersion();
-	const int os_bugfix_version = osVersion.microVersion();
+	int os_major_version = osVersion.majorVersion();
+	int os_minor_version = osVersion.minorVersion();
+	int os_bugfix_version = osVersion.microVersion();
 
 	#if defined(Q_OS_WIN)
 		// We don't use GetVersionEx unlike Chromium here
