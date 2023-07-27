@@ -14,9 +14,15 @@ if(DEFINED COVERAGE)
 	endif()
 endif()
 
-find_package(Qt5 COMPONENTS Core Network REQUIRED)
-set(QT_LIBRARIES Qt5::Core Qt5::Network)
-message(STATUS "Using Qt ${Qt5_VERSION}")
+find_package(Qt6 COMPONENTS Core Network)
+if(Qt6_FOUND)
+	set(QT_LIBRARIES Qt6::Core Qt6::Network)
+	message(STATUS "Using Qt ${Qt6_VERSION}")
+else()
+	find_package(Qt5 COMPONENTS Core Network REQUIRED)
+	set(QT_LIBRARIES Qt5::Core Qt5::Network)
+	message(STATUS "Using Qt ${Qt5_VERSION}")
+endif()
 
 add_subdirectory(vendor/catch2)
 

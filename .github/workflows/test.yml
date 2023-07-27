@@ -3,13 +3,28 @@ name: Test
 on:
   push:
 
-env:
-  QT_VERSION: 5.15.2
-
 jobs:
-  linux:
-    name: Linux
-    runs-on: ubuntu-20.04
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - name: Linux (Qt 5)
+          os: ubuntu-20.04
+          version: 5.15.2
+          coverage: true
+        - name: Linux (Qt 6)
+          os: ubuntu-20.04
+          version: 6.5.1
+        - name: Windows
+          os: windows-2019
+          version: 5.15.2
+        - name: macOS
+          os: macos-11
+          version: 5.15.2
+
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout
@@ -21,7 +36,7 @@ jobs:
         uses: jurplel/install-qt-action@v3
         with:
           cache: true
-          version: ${{ env.QT_VERSION }}
+          version: ${{ matrix.version }}
 
       - name: Build
         working-directory: tests
@@ -32,21 +47,30 @@ jobs:
           cmake --build .
 
       - name: Test
+        if: ${{ matrix.os != 'windows-2019' }}
         working-directory: tests
         run: build/tests
 
+      - name: Test
+        if: ${{ matrix.os == 'windows-2019' }}
+        working-directory: tests
+        run: build\Debug\tests.exe
+
       - name: Install lcov
+        if: ${{ matrix.coverage }}
         run: |
           sudo apt update
           sudo apt install lcov
 
       - name: Generate coverage reports
+        if: ${{ matrix.coverage }}
         run: |
           lcov --directory . --capture --output-file coverage.info
           lcov --remove coverage.info '*/tests/*' '/usr/*' "${HOME}"'/.cache/*' --output-file coverage.info
           lcov --list coverage.info
 
       - name: Upload coverage reports
+        if: ${{ matrix.coverage }}
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
