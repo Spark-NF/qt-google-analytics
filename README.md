@@ -54,6 +54,13 @@ If you want to debug the events using the [DebugView](https://support.google.com
 analytics.setDebugModeEnabled(true);
 ```
 
+### (Optional) Override the User-Agent header
+By default, an User-Agent for the current platform will be generated. If you wish to override it and provide your own, you can use `setUserAgent`. Note that Google Analytics bases its platform detection on the User-Agent header, so overriding it to a const might make your platform analytics less reliable.
+
+```cpp
+analytics.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36");
+```
+
 ### Send events
 Once you're set up, you can send events using the `sendEvent` method:
 ```cpp

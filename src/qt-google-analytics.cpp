@@ -45,7 +45,7 @@ QtGoogleAnalytics::QtGoogleAnalytics(QObject *parent)
 		m_clientId = settings.value(CLIENT_ID_SETTINGS_KEY).toString();
 	}
 
-	m_userAgent = userAgent();
+	m_generatedUserAgent = generateUserAgent();
 }
 
 QtGoogleAnalytics::QtGoogleAnalytics(const QString &measurementId, QObject *parent)
@@ -92,6 +92,19 @@ void QtGoogleAnalytics::setUserProperties(const QVariantMap &userProperties)
 QVariantMap QtGoogleAnalytics::userProperties() const
 {
 	return m_userProperties;
+}
+
+void QtGoogleAnalytics::setUserAgent(const QString &userAgent)
+{
+	if (m_userAgent != userAgent) {
+		m_userAgent = userAgent;
+		emit userAgentChanged();
+	}
+}
+
+QString QtGoogleAnalytics::userAgent() const
+{
+	return m_userAgent;
 }
 
 void QtGoogleAnalytics::setDebugModeEnabled(bool debugModeEnabled)
@@ -198,7 +211,7 @@ void QtGoogleAnalytics::sendEvent(const QString &name, const QVariantMap &parame
 	}
 #endif
 
-QString QtGoogleAnalytics::userAgent() const
+QString QtGoogleAnalytics::generateUserAgent() const
 {
 	#if defined(Q_OS_ANDROID)
 		// On Android, just use System.getProperty("http.agent")
