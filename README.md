@@ -9,9 +9,9 @@
 ## About
 This script allows you to send events from your Qt application to Google Analytics 4.
 
-It supports sending events, setting user properties, as well as operating system detection.
+It supports sending events, setting user properties, as well as operating system detection (using a generated [User-Agent](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent) as well as the [User-Agent Client Hints](https://wicg.github.io/ua-client-hints/) specification).
 
-Compatible with both Qt 5.10+ and Qt 6.
+Compatible with both Qt 5 and Qt 6.
 
 ### Authors
 * Nicolas Faure ([Spark-NF](https://github.com/Spark-NF))
@@ -55,11 +55,13 @@ analytics.setDebugModeEnabled(true);
 ```
 
 ### (Optional) Override the User-Agent header
-By default, an User-Agent for the current platform will be generated. If you wish to override it and provide your own, you can use `setUserAgent`. Note that Google Analytics bases its platform detection on the User-Agent header, so overriding it to a const might make your platform analytics less reliable.
+By default, an [User-Agent](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent) header for the current platform will be generated. If you wish to override it and provide your own, you can use `setUserAgent`. Note that Google Analytics bases part of its platform detection on the User-Agent header, so overriding it to a const might make your platform analytics less reliable.
 
 ```cpp
 analytics.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36");
 ```
+
+Note that this does not impact the [User-Agent Client Hints](https://wicg.github.io/ua-client-hints/) sent with the request.
 
 ### Send events
 Once you're set up, you can send events using the `sendEvent` method:
